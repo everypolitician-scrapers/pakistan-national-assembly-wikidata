@@ -15,5 +15,21 @@ changes = EveryPolitician::Wikidata.wikipedia_xpath(
   xpath: '//table[.//th[.="Member"]]//td[4]//a[not(@class="new")][1]/@title',
 )
 
-EveryPolitician::Wikidata.scrape_wikidata(names: { en: original_members | changes })
+# Find all P39s of the 14th Assembly
+query = <<EOS
+  SELECT DISTINCT ?item
+  WHERE
+  {
+    BIND(wd:Q20760546 AS ?membership)
+    BIND(wd:Q29068722 AS ?term)
+
+    ?item p:P39 ?position_statement .
+    ?position_statement ps:P39 ?membership .
+    ?position_statement pq:P2937 ?term .
+  }
+EOS
+p39s = EveryPolitician::Wikidata.sparql(query)
+
+
+EveryPolitician::Wikidata.scrape_wikidata(ids: p39s, names: { en: original_members | changes })
 

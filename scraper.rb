@@ -6,13 +6,13 @@ require 'wikidata/fetcher'
 original_members = EveryPolitician::Wikidata.wikipedia_xpath(
   url: 'https://en.wikipedia.org/wiki/List_of_members_of_the_14th_National_Assembly_of_Pakistan',
   before: '//span[@id="Membership_changes"]',
-  xpath: '//table[.//th[.="Constituency"]]//td[3]//a[not(@class="new")][1]/@title',
+  xpath: '//table[.//th[contains(.,"Constituency")]]//td[3]//a[not(@class="new")][1]/@title',
 )
 
 changes = EveryPolitician::Wikidata.wikipedia_xpath(
   url: 'https://en.wikipedia.org/wiki/List_of_members_of_the_14th_National_Assembly_of_Pakistan',
   after: '//span[@id="Membership_changes"]',
-  xpath: '//table[.//th[.="Member"]]//td[3]//a[not(@class="new")][1]/@title',
+  xpath: '//table[.//th[contains(.,"Member")]]//td[3]//a[not(@class="new")][1]/@title',
 )
 
 # Find all P39s of the 14th Assembly
